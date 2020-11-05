@@ -1,8 +1,10 @@
 import Canvas from './components/canvas'
 import './App.css';
+import { useState } from 'react';
 
 function App() {
-  const selectedImages = [{
+
+  const [selectedImages, setSelectedImages] = useState([{
     src: 'https://lh3.googleusercontent.com/proxy/OiXkrYhmhYi5-AjdGaqMqBEY1_9N4r1gCe5xTTbd7fLP4m468vu_L8qZCnmcbPU3jpWp_yVlyfuYItcpdTOmr6VQMLW10mKaRCWjs0BDg0PspWgv6eaLdR7uSBc4DeZbOQ8J5XHHn6Z-OgQ',
     x: 0,
     y: 0,
@@ -14,10 +16,11 @@ function App() {
     y: 100,
     w: 150,
     h: 150,
-  }];
+  }]);
+
   return (
     <div className="App">
-      <Canvas selectedImages={selectedImages} />
+      <Canvas selectedImages={selectedImages} setSelectedImages={setSelectedImages}/>
     </div>
   );
 }

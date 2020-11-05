@@ -2,11 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 
 import './canvas.css';
 
-export default function Canvas({selectedImages = []}) {
+export default function Canvas({ selectedImages = [], setSelectedImages }) {
     const canvasRef = useRef();
     const [pos, setPos] = useState({ x: 0, y: 0 });
-    const [grabbed, setGrabbed] = useState(false);
-    const [grabbedElement, setGrabbedElement] = useState({});
+    const [grabbedElement, setGrabbedElement] = useState(-1);
 
     useEffect(() => {
         canvasRef.current.width = window.innerWidth;
@@ -15,6 +14,7 @@ export default function Canvas({selectedImages = []}) {
 
     useEffect(() => {
        const context = canvasRef.current.getContext('2d');
+       context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
        selectedImages.map(img => {
         const base_image = new Image();
         base_image.src = img.src;
@@ -24,36 +24,39 @@ export default function Canvas({selectedImages = []}) {
         return base_image;
        });
     }, [selectedImages]);
-    
-    useEffect(() => grabbed ? console.log({pos, grabbedElement}): false, [pos, grabbed]);
 
     const mouseDown = (e) => {
         const { pageX, pageY } = e;
         const mouseX = pageX - canvasRef.current.offsetLeft;
         const mouseY = pageY - canvasRef.current.offsetTop;
-        console.log(mouseY, mouseX);
-        for (const elem of selectedImages) {
-            console.log(elem);
+        for (let i = 0; i < selectedImages.length; i++) {
+            const elem = selectedImages[i];
             if (elem.x < mouseX && mouseX < (elem.x + elem.w) && elem.y < mouseY && mouseY < (elem.y + elem.h)) {
-                setGrabbedElement(elem);
-                setGrabbed(true);
+                setGrabbedElement(i);
                 return;
             }
         }
     };
 
     const mouseUp = () => {
-        setGrabbedElement({});
-        setGrabbed(false);
+        setGrabbedElement(-1);
+        setPos({});
     };
 
     const mouseMove = (e) => {
-        if (!grabbed) return;
-        const {screenX: x, screenY: y} = e;
-        if (pos.x && pos.y) {
-            setGrabbedElement({  });
+        if (grabbedElement === -1) return;
+        const { pageX, pageY } = e;
+        const mouseX = pageX - canvasRef.current.offsetLeft;
+        const mouseY = pageY - canvasRef.current.offsetTop;
+        if (pos && pos.x && pos.y) {
+            const imgs = selectedImages.map((img, i) => i === grabbedElement ? { 
+                ...img, 
+                x: img.x + mouseX - pos.x, 
+                y: img.y + mouseY - pos.y
+            } : img);
+            setSelectedImages(imgs);
         }
-        setPos({x, y});
+        setPos({x: mouseX, y: mouseY});
     };
 
     return <canvas width="100vw" height="100vh" id="main-canvas" ref={canvasRef} onMouseDown={mouseDown} onMouseMove={mouseMove} onMouseUp={mouseUp}></canvas>;
