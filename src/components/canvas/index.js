@@ -15,13 +15,18 @@ export default function Canvas({ selectedImages = [], setSelectedImages }) {
     useEffect(() => {
        const context = canvasRef.current.getContext('2d');
        context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-       selectedImages.map(img => {
+       selectedImages.map((img, i) => {
+        if (img.imgCache) {
+            context.drawImage(img.imgCache, img.x, img.y, img.w, img.h);
+            return img;
+        } 
         const base_image = new Image();
         base_image.src = img.src;
         base_image.onload = function(){
+          img.imgCache = base_image;
           context.drawImage(base_image, img.x, img.y, img.w, img.h);
         }
-        return base_image;
+        return img;
        });
     }, [selectedImages]);
 
