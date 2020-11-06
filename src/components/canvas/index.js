@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import drawHandler from './drawHandler';
 
 import './canvas.css';
 
@@ -17,23 +18,8 @@ export default function Canvas({ elements = [], setElements }) {
     useEffect(() => {
        const context = canvasRef.current.getContext('2d');
        context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-       elements.map((img, i) => {
-        if (img.imgCache) {
-            context.drawImage(img.imgCache, img.x, img.y, img.w, img.h);
-            return img;
-        } 
-        const base_image = new Image();
-        base_image.src = img.src;
-        base_image.onload = function(){
-          img.imgCache = base_image;
-          // set height & width if not already set
-          let nh = base_image.naturalHeight;
-          let nw = base_image.naturalWidth;
-          img.w = img.w === -1 ? nw : img.w;
-          img.h = img.h === -1 ? nh : img.h;
-          context.drawImage(base_image, img.x, img.y, img.w, img.h);
-        }
-        return img;
+       elements.map((elem, i) => {
+        return drawHandler(context, elem);
        });
     }, [elements]);
 
