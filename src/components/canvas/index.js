@@ -30,25 +30,37 @@ export default function Canvas({ elements = [], setElements }) {
         const { pageX, pageY } = e;
         const mouseX = pageX - canvasRef.current.offsetLeft;
         const mouseY = pageY - canvasRef.current.offsetTop;
-        for (let i = 0; i < elements.length; i++) {
-            const elem = elements[i];
+        let clickedOnElem = false;
+        const elems = elements.map((elem, i) => {
+            // if already one element selected, do not check others
+            if (clickedOnElem) return elem;
             if (elem.x < mouseX && mouseX < (elem.x + elem.w) && elem.y < mouseY && mouseY < (elem.y + elem.h)) {
                 setGrabbedElement(i);
                 elements[i].active = true;
+                clickedOnElem = true;
                 setElements(elements);
-                return;
             }
+            return elem;
+        });
+        if (clickedOnElem) {
+            setElements(elems);
+            return;
         }
+        setGrabbedElement(-1);
     };
 
-    // user left the element, dont move/grab the element anymore
+    // when user left the element, dont move/grab the element anymore
     const mouseUp = () => {
-        elements = elements.map(ele => {
-            ele.active = false;
-            return ele;
-        });
-        setElements(elements);
+        if (grabbedElement === -1) {
+            // clicked outside an element, remove highlights
+            elements = elements.map(ele => {
+                ele.active = false;
+                return ele;
+            });
+            setElements(elements);
+        }
         setGrabbedElement(-1);
+        // clear mouse position because element stops moving on moveUp
         setPos({});
     };
 
@@ -56,6 +68,7 @@ export default function Canvas({ elements = [], setElements }) {
     const mouseMove = (e) => {
         if (grabbedElement === -1) return;
         const { pageX, pageY } = e;
+        // set mouse X, Y according to canvas start position
         const mouseX = pageX - canvasRef.current.offsetLeft;
         const mouseY = pageY - canvasRef.current.offsetTop;
         if (pos && pos.x && pos.y) {
