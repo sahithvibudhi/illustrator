@@ -4,16 +4,19 @@ import drawHandler from './drawHandler';
 import './canvas.css';
 import types from '../../providers/type';
 
-export default function Canvas({ elements = [], setElements }) {
+export default function Canvas({ elements = [], setElements, headerRef }) {
     const canvasRef = useRef();
     const [pos, setPos] = useState({ x: 0, y: 0 });
     const [grabbedElement, setGrabbedElement] = useState(-1);
+    const marginAroundCanvas = 10;
 
     // make canvas take full height & width
     useEffect(() => {
-        canvasRef.current.width = window.innerWidth;
-        canvasRef.current.height = window.innerHeight;
-    }, []);
+        canvasRef.current.width = window.innerWidth - 2*marginAroundCanvas;
+        canvasRef.current.height = window.innerHeight - headerRef.current.offsetHeight - 2*marginAroundCanvas;
+        canvasRef.current.style.margin = `${marginAroundCanvas}px`;
+        canvasRef.current.style.marginTop = headerRef.current.offsetHeight + marginAroundCanvas + "px";
+    }, [headerRef]);
 
     // draw all the elements on the canvas everytime elements list changes
     useEffect(() => {
