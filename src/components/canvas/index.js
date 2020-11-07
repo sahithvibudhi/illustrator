@@ -18,6 +18,7 @@ export default function Canvas({ elements = [], setElements }) {
     // draw all the elements on the canvas everytime elements list changes
     useEffect(() => {
        const context = canvasRef.current.getContext('2d');
+       console.log('redrawing canvas', elements);
        context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
        elements.map((elem, i) => {
         if (elem.active) drawHandler(context, { ...elem, type: types.HIGHLIGHT });
@@ -31,21 +32,26 @@ export default function Canvas({ elements = [], setElements }) {
         const mouseX = pageX - canvasRef.current.offsetLeft;
         const mouseY = pageY - canvasRef.current.offsetTop;
         let clickedOnElem = false;
-        const elems = elements.map((elem, i) => {
-            // if already one element selected, do not check others
-            if (clickedOnElem) return elem;
-            if (elem.x < mouseX && mouseX < (elem.x + elem.w) && elem.y < mouseY && mouseY < (elem.y + elem.h)) {
+
+        // grab the element on top (i.e, towards end of the array)
+        const elems = [];
+        for (let i = elements.length - 1; i >= 0; i--) {
+            const elem = elements[i];
+            if (!clickedOnElem && elem.x < mouseX && mouseX < (elem.x + elem.w) && elem.y < mouseY && mouseY < (elem.y + elem.h)) {
                 setGrabbedElement(i);
-                elements[i].active = true;
+                elem.active = true;
                 clickedOnElem = true;
-                setElements(elements);
+            } else {
+                elem.active = false;
             }
-            return elem;
-        });
+            elems[i] = elem;
+        }
+
         if (clickedOnElem) {
             setElements(elems);
             return;
         }
+
         setGrabbedElement(-1);
     };
 
