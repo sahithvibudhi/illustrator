@@ -6,6 +6,8 @@ const drawHandler = (context, element) => {
     switch (element.type) {
         case types.IMAGE:
             return imageHandler(context, element);
+        case types.HIGHLIGHT:
+            return highlightHandler(context, element);
         default:
             return element;
     }
@@ -28,6 +30,10 @@ const imageHandler = (context, img) => {
       context.drawImage(base_image, img.x, img.y, img.w, img.h);
     }
     return img;
+}
+
+const highlightHandler = (context, elem) => {
+    context.strokeRect(elem.x, elem.y, elem.w, elem.h);
 }
 
 export default drawHandler;

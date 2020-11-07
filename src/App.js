@@ -4,7 +4,6 @@ import { useState } from 'react';
 import data from './providers/data';
 
 function App() {
-
   const [elements, setElements] = useState(data);
 
   return (

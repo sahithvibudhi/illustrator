@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import drawHandler from './drawHandler';
 
 import './canvas.css';
+import types from '../../providers/type';
 
 export default function Canvas({ elements = [], setElements }) {
     const canvasRef = useRef();
@@ -19,6 +20,7 @@ export default function Canvas({ elements = [], setElements }) {
        const context = canvasRef.current.getContext('2d');
        context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
        elements.map((elem, i) => {
+        if (elem.active) drawHandler(context, { ...elem, type: types.HIGHLIGHT });
         return drawHandler(context, elem);
        });
     }, [elements]);
@@ -32,6 +34,8 @@ export default function Canvas({ elements = [], setElements }) {
             const elem = elements[i];
             if (elem.x < mouseX && mouseX < (elem.x + elem.w) && elem.y < mouseY && mouseY < (elem.y + elem.h)) {
                 setGrabbedElement(i);
+                elements[i].active = true;
+                setElements(elements);
                 return;
             }
         }
@@ -39,6 +43,11 @@ export default function Canvas({ elements = [], setElements }) {
 
     // user left the element, dont move/grab the element anymore
     const mouseUp = () => {
+        elements = elements.map(ele => {
+            ele.active = false;
+            return ele;
+        });
+        setElements(elements);
         setGrabbedElement(-1);
         setPos({});
     };
