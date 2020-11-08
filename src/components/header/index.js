@@ -4,7 +4,7 @@ import types from '../../providers/type';
 
 import './header.css'
 
-export default function Header({ setElements, headerRef, grabbedElement }) {
+export default function Header({ setElements, headerRef, activeElement, setActiveElement }) {
     const fileRef = useRef();
 
     const uploadClick = () => {
@@ -25,13 +25,25 @@ export default function Header({ setElements, headerRef, grabbedElement }) {
                 }]);
     }
 
+    const deleteElement = () => {
+        setElements(elements => {
+            const elems = elements.filter((_, i) => i !== activeElement);
+            return [...elems];
+        });
+        setActiveElement(-1);
+    }
+
     return <div id="header" ref={headerRef}>
                 <span>Sketch</span>
                 <input type="file" hidden={true} onChange={onFileSelect} accept="image/x-png,image/gif,image/jpeg" ref={fileRef}/>
                 <span className="float-right vertical-center">
-                    <span id="icons">
-                        <FiTrash2/>
-                    </span>
+                    { 
+                        activeElement !== -1 
+                        ? <span id="actions">
+                            <FiTrash2 className="hand" onClick={deleteElement}/>
+                          </span> 
+                        : null
+                    }
                     <button onClick={uploadClick}>Upload</button>
                     <button>Download</button>
                 </span>

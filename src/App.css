@@ -15,3 +15,7 @@ button {
   padding: 6px;
   margin: 5px;
 }
+
+.hand {
+  cursor: pointer;
+}

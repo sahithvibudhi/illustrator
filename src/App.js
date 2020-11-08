@@ -8,7 +8,7 @@ import './App.css';
 
 function App() {
   const [elements, setElements] = useState(data);
-  const [grabbedElement, setGrabbedElement] = useState(-1);
+  const [activeElement, setActiveElement] = useState(-1);
   const headerRef = useRef();
 
   return (
@@ -16,13 +16,15 @@ function App() {
       <Header 
         setElements={setElements} 
         headerRef={headerRef} 
-        grabbedElement={grabbedElement} />
+        activeElement={activeElement}
+        setActiveElement={setActiveElement} 
+        />
       <Canvas 
         elements={elements} 
         setElements={setElements} 
         headerRef={headerRef} 
-        grabbedElement={grabbedElement}
-        setGrabbedElement={setGrabbedElement} />
+        activeElement={activeElement}
+        setActiveElement={setActiveElement} />
     </div>
   );
 }

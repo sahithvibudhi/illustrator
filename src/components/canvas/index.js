@@ -4,9 +4,10 @@ import drawHandler from './drawHandler';
 import './canvas.css';
 import types from '../../providers/type';
 
-export default function Canvas({ elements = [], setElements, headerRef, grabbedElement, setGrabbedElement }) {
+export default function Canvas({ elements = [], setElements, headerRef, activeElement, setActiveElement }) {
     const canvasRef = useRef();
     const [pos, setPos] = useState({ x: 0, y: 0 });
+    const [grabbedElement, setGrabbedElement] = useState(-1);
     const marginAroundCanvas = 10;
 
     // make canvas take full height & width
@@ -20,7 +21,6 @@ export default function Canvas({ elements = [], setElements, headerRef, grabbedE
     // draw all the elements on the canvas everytime elements list changes
     useEffect(() => {
        const context = canvasRef.current.getContext('2d');
-       console.log('redrawing canvas', elements);
        context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
        elements.map((elem, i) => {
         if (elem.active) drawHandler(context, { ...elem, type: types.HIGHLIGHT });
@@ -41,6 +41,7 @@ export default function Canvas({ elements = [], setElements, headerRef, grabbedE
             const elem = elements[i];
             if (!clickedOnElem && elem.x < mouseX && mouseX < (elem.x + elem.w) && elem.y < mouseY && mouseY < (elem.y + elem.h)) {
                 setGrabbedElement(i);
+                setActiveElement(i);
                 elem.active = true;
                 clickedOnElem = true;
             } else {
@@ -55,6 +56,7 @@ export default function Canvas({ elements = [], setElements, headerRef, grabbedE
         }
 
         setGrabbedElement(-1);
+        setActiveElement(-1);
     };
 
     // when user left the element, dont move/grab the element anymore
