@@ -1,8 +1,10 @@
 import { useRef } from 'react';
+import { FiTrash2 } from 'react-icons/fi';
 import types from '../../providers/type';
+
 import './header.css'
 
-export default function Header({ setElements, headerRef }) {
+export default function Header({ setElements, headerRef, grabbedElement }) {
     const fileRef = useRef();
 
     const uploadClick = () => {
@@ -26,7 +28,10 @@ export default function Header({ setElements, headerRef }) {
     return <div id="header" ref={headerRef}>
                 <span>Sketch</span>
                 <input type="file" hidden={true} onChange={onFileSelect} accept="image/x-png,image/gif,image/jpeg" ref={fileRef}/>
-                <span className="float-right">
+                <span className="float-right vertical-center">
+                    <span id="icons">
+                        <FiTrash2/>
+                    </span>
                     <button onClick={uploadClick}>Upload</button>
                     <button>Download</button>
                 </span>

@@ -8,12 +8,21 @@ import './App.css';
 
 function App() {
   const [elements, setElements] = useState(data);
+  const [grabbedElement, setGrabbedElement] = useState(-1);
   const headerRef = useRef();
 
   return (
     <div className="App">
-      <Header setElements={setElements} headerRef={headerRef}/>
-      <Canvas elements={elements} setElements={setElements} headerRef={headerRef}/>
+      <Header 
+        setElements={setElements} 
+        headerRef={headerRef} 
+        grabbedElement={grabbedElement} />
+      <Canvas 
+        elements={elements} 
+        setElements={setElements} 
+        headerRef={headerRef} 
+        grabbedElement={grabbedElement}
+        setGrabbedElement={setGrabbedElement} />
     </div>
   );
 }

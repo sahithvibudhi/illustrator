@@ -6,6 +6,11 @@ body {
   float: right;
 }
 
+.vertical-center {
+  display: inline-flex;
+  align-items: center;
+}
+
 button {
   padding: 6px;
   margin: 5px;

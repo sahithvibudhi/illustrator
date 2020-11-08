@@ -4,10 +4,9 @@ import drawHandler from './drawHandler';
 import './canvas.css';
 import types from '../../providers/type';
 
-export default function Canvas({ elements = [], setElements, headerRef }) {
+export default function Canvas({ elements = [], setElements, headerRef, grabbedElement, setGrabbedElement }) {
     const canvasRef = useRef();
     const [pos, setPos] = useState({ x: 0, y: 0 });
-    const [grabbedElement, setGrabbedElement] = useState(-1);
     const marginAroundCanvas = 10;
 
     // make canvas take full height & width
