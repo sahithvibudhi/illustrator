@@ -34,7 +34,7 @@ export default function Header({ setElements, headerRef, activeElement, setActiv
     }
 
     return <div id="header" ref={headerRef}>
-                <span>Sketch</span>
+                <span class="vertical-center title-badge">Sketch</span>
                 <input type="file" hidden={true} onChange={onFileSelect} accept="image/x-png,image/gif,image/jpeg" ref={fileRef}/>
                 <span className="float-right vertical-center">
                     { 
