@@ -4,7 +4,7 @@ import types from '../../providers/type';
 
 import './header.css'
 
-export default function Header({ setElements, headerRef, activeElement, setActiveElement }) {
+export default function Header({ elements, setElements, headerRef, activeElement, setActiveElement }) {
     const fileRef = useRef();
 
     const uploadClick = () => {
@@ -33,6 +33,22 @@ export default function Header({ setElements, headerRef, activeElement, setActiv
         setActiveElement(-1);
     }
 
+    const onWidthChange = (e) => {
+        const elems = elements.map((elem, i) => {
+            if (i === activeElement) elem.w = parseInt(e.target.value);
+            return elem;
+        });
+        setElements(elems);
+    }
+
+    const onHeightChange = (e) => {
+        const elems = elements.map((elem, i) => {
+            if (i === activeElement) elem.h = parseInt(e.target.value);
+            return elem;
+        });
+        setElements(elems);
+    }
+
     return <div id="header" ref={headerRef}>
                 <span class="vertical-center title-badge">Sketch</span>
                 <input type="file" hidden={true} onChange={onFileSelect} accept="image/x-png,image/gif,image/jpeg" ref={fileRef}/>
@@ -40,6 +56,8 @@ export default function Header({ setElements, headerRef, activeElement, setActiv
                     { 
                         activeElement !== -1 
                         ? <span id="actions">
+                            w: <input type="number" value={elements[activeElement].w} onChange={onWidthChange}/>
+                            h: <input type="number" value={elements[activeElement].h} onChange={onHeightChange}/>
                             <FiTrash2 className="hand" onClick={deleteElement}/>
                           </span> 
                         : null

@@ -14,6 +14,7 @@ function App() {
   return (
     <div className="App">
       <Header 
+        elements={elements} 
         setElements={setElements} 
         headerRef={headerRef} 
         activeElement={activeElement}
