@@ -19,3 +19,12 @@ button {
 .hand {
   cursor: pointer;
 }
+
+.small-text {
+  font-size: smaller;
+}
+
+.padding-x {
+  padding-left: 8px;
+  padding-right: 8px;
+}
