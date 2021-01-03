@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/illustrator/static/css/main.e355e2a6.chunk.css",
-    "main.js": "/illustrator/static/js/main.04df6cd7.chunk.js",
-    "main.js.map": "/illustrator/static/js/main.04df6cd7.chunk.js.map",
+    "main.js": "/illustrator/static/js/main.265233bb.chunk.js",
+    "main.js.map": "/illustrator/static/js/main.265233bb.chunk.js.map",
     "runtime-main.js": "/illustrator/static/js/runtime-main.bda417e5.js",
     "runtime-main.js.map": "/illustrator/static/js/runtime-main.bda417e5.js.map",
     "static/js/2.bcf80fa6.chunk.js": "/illustrator/static/js/2.bcf80fa6.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.bda417e5.js",
     "static/js/2.bcf80fa6.chunk.js",
     "static/css/main.e355e2a6.chunk.css",
-    "static/js/main.04df6cd7.chunk.js"
+    "static/js/main.265233bb.chunk.js"
   ]
 }
