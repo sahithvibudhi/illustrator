@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import drawHandler from './drawHandler';
 
 import './canvas.css';
 import types from '../../providers/type';
 
-export default function Canvas({ elements = [], setElements, headerRef, activeElement, setActiveElement }) {
-    const canvasRef = useRef();
+export default function Canvas({ elements = [], setElements, headerRef, activeElement, setActiveElement, canvasRef }) {
     const [pos, setPos] = useState({ x: 0, y: 0 });
     const [grabbedElement, setGrabbedElement] = useState(-1);
     const marginAroundCanvas = 10;
@@ -16,7 +15,7 @@ export default function Canvas({ elements = [], setElements, headerRef, activeEl
         canvasRef.current.height = window.innerHeight - headerRef.current.offsetHeight - 2*marginAroundCanvas;
         canvasRef.current.style.margin = `${marginAroundCanvas}px`;
         canvasRef.current.style.marginTop = headerRef.current.offsetHeight + marginAroundCanvas + "px";
-    }, [headerRef]);
+    }, [headerRef, canvasRef]);
 
     // draw all the elements on the canvas everytime elements list changes
     useEffect(() => {
@@ -26,7 +25,7 @@ export default function Canvas({ elements = [], setElements, headerRef, activeEl
         if (elem.active) drawHandler(context, { ...elem, type: types.HIGHLIGHT });
         return drawHandler(context, elem);
        });
-    }, [elements]);
+    }, [elements, canvasRef]);
 
     // check if this is on an element
     const mouseDown = (e) => {

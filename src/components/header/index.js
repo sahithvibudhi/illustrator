@@ -4,7 +4,7 @@ import types from '../../providers/type';
 
 import './header.css'
 
-export default function Header({ elements, setElements, headerRef, activeElement, setActiveElement }) {
+export default function Header({ elements, setElements, headerRef, activeElement, setActiveElement, canvasRef }) {
     const fileRef = useRef();
 
     const uploadClick = () => {
@@ -50,21 +50,33 @@ export default function Header({ elements, setElements, headerRef, activeElement
     }
 
     const bringForward = () => {
-        if (activeElement == elements.length - 1) return;
+        if (activeElement === elements.length - 1) return;
         // swapping current element with element after it
         [elements[activeElement + 1], elements[activeElement]] = [elements[activeElement], elements[activeElement + 1]];
         setElements([...elements]);
     }
 
     const sendBack = () => {
-        if (activeElement == 0) return;
+        if (activeElement === 0) return;
         // swapping current element with element after it
         [elements[activeElement - 1], elements[activeElement]] = [elements[activeElement], elements[activeElement - 1]];
         setElements([...elements]);
     }
 
+    const download = () => {
+        console.log({canvasRef});
+        let dt = canvasRef.current.toDataURL('image/png');
+        /* Change MIME type to trick the browser to downlaod the file instead of displaying it */
+        dt = dt.replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
+      
+        /* In addition to <a>'s "download" attribute, you can define HTTP-style headers */
+        dt = dt.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=Canvas.png');
+      
+        window.href = dt;
+    }
+
     return <div id="header" ref={headerRef}>
-                <span class="vertical-center title-badge">Sketch</span>
+                <span className="vertical-center title-badge">Sketch</span>
                 <input type="file" hidden={true} onChange={onFileSelect} accept="image/x-png,image/gif,image/jpeg" ref={fileRef}/>
                 <span className="float-right vertical-center">
                     { 
@@ -79,7 +91,7 @@ export default function Header({ elements, setElements, headerRef, activeElement
                         : null
                     }
                     <button onClick={uploadClick}>Upload</button>
-                    <button>Download</button>
+                    <button onClick={download}>Download</button>
                 </span>
             </div>;
 };
