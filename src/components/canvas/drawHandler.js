@@ -20,6 +20,7 @@ const imageHandler = (context, img) => {
     } 
     const base_image = new Image();
     base_image.src = img.src;
+    base_image.crossOrigin = "anonymous";
     base_image.onload = function(){
       img.imgCache = base_image;
       // set height & width if not already set

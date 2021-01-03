@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, createElement } from 'react';
 import { FiTrash2 } from 'react-icons/fi';
 import types from '../../providers/type';
 
@@ -6,6 +6,7 @@ import './header.css'
 
 export default function Header({ elements, setElements, headerRef, activeElement, setActiveElement, canvasRef }) {
     const fileRef = useRef();
+    const downloadRef = useRef();
 
     const uploadClick = () => {
         fileRef.current.click();
@@ -72,7 +73,11 @@ export default function Header({ elements, setElements, headerRef, activeElement
         /* In addition to <a>'s "download" attribute, you can define HTTP-style headers */
         dt = dt.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=Canvas.png');
       
-        window.href = dt;
+        downloadRef.current.href = dt;
+        // TODO: take it from input field
+        downloadRef.current.download = 'illustration.png'; 
+        downloadRef.current.click();
+
     }
 
     return <div id="header" ref={headerRef}>
@@ -92,6 +97,7 @@ export default function Header({ elements, setElements, headerRef, activeElement
                     }
                     <button onClick={uploadClick}>Upload</button>
                     <button onClick={download}>Download</button>
+                    <a className="hidden" ref={downloadRef}></a>
                 </span>
             </div>;
 };
