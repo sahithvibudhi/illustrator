@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/illustrator/static/css/main.e355e2a6.chunk.css",
+    "main.js": "/illustrator/static/js/main.04df6cd7.chunk.js",
+    "main.js.map": "/illustrator/static/js/main.04df6cd7.chunk.js.map",
+    "runtime-main.js": "/illustrator/static/js/runtime-main.bda417e5.js",
+    "runtime-main.js.map": "/illustrator/static/js/runtime-main.bda417e5.js.map",
+    "static/js/2.bcf80fa6.chunk.js": "/illustrator/static/js/2.bcf80fa6.chunk.js",
+    "static/js/2.bcf80fa6.chunk.js.map": "/illustrator/static/js/2.bcf80fa6.chunk.js.map",
+    "static/js/3.21118475.chunk.js": "/illustrator/static/js/3.21118475.chunk.js",
+    "static/js/3.21118475.chunk.js.map": "/illustrator/static/js/3.21118475.chunk.js.map",
+    "index.html": "/illustrator/index.html",
+    "static/css/main.e355e2a6.chunk.css.map": "/illustrator/static/css/main.e355e2a6.chunk.css.map",
+    "static/js/2.bcf80fa6.chunk.js.LICENSE.txt": "/illustrator/static/js/2.bcf80fa6.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.bda417e5.js",
+    "static/js/2.bcf80fa6.chunk.js",
+    "static/css/main.e355e2a6.chunk.css",
+    "static/js/main.04df6cd7.chunk.js"
+  ]
+}
